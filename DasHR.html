@@ -1,14 +1,44 @@
 <head>
-  <title>DasHR</title>
+  <title>DasHR - Recruitment Dashboard</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <div class="container">
+  	<header>
+  		<h1>DasHR - Recruitment Dashboard ({{incompleteCount}})</h1>
+  		{{> loginButtons}}
+      <label class="hide-completed">
+        <input type="checkbox" checked="{{hideCompleted}}" />
+        Hide No Go candidates
+      </label>
 
-  {{> hello}}
+      {{#if currentUser}}
+      <form class="new-candidate">
+        <input type="text" name="name" placeholder="Type to add new candidates" />
+      </form>
+      {{/if}}
+
+	</header>
+	
+	<ul>
+	{{#each candidates}}
+  		{{> candidate}}
+	{{/each}}
+	</ul>
+</div>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="candidate">
+	<li class="{{#if checked}}checked{{/if}}">
+		<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" />
+		<label for="tup{{_id}}"> </label>
+
+		<input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" />
+		<label for="tdown{{_id}}"> </label>
+
+
+    	<button class="delete">&times;</button>
+	    <span class="text">{{name}} ({{createdAt}})</span>
+    	<input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+	</li>
 </template>

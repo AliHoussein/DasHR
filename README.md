@@ -1,2 +1,2 @@
 # DasHR
-Recruitment dashboard
+New Year, new project: This is a Recruitment dashboard

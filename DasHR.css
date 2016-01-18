@@ -120,6 +120,7 @@ header .hide-completed {
 	display:inline-block;
 	border: 1px solid #66b2ff; 
 	padding: 0 0 0 0px;
+	cursor: pointer;
 }
 
 .checkbox-down + label {
@@ -133,6 +134,10 @@ header .hide-completed {
     background-color: #e5f2ff;    
 }
 
+.checkbox-up + label:hover, .checkbox-down + label:hover
+{
+    background-color: #e5f2ff;
+}
 
 
 

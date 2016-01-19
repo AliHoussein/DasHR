@@ -113,18 +113,19 @@ header .hide-completed {
  
 .checkbox-up + label, .checkbox-down + label
 {
-    background:url('thumbup.png') no-repeat center;
+    background:url('thumbup.png') no-repeat left;
 	background-size: 16px 16px;
 	height: 24px;
-	width: 24px;
+	width: 30px;
 	display:inline-block;
 	border: 1px solid #66b2ff; 
 	padding: 0 0 0 0px;
 	cursor: pointer;
+	text-align: right;
 }
 
 .checkbox-down + label {
-    background:url('thumbdown.png') no-repeat center;
+    background:url('thumbdown.png') no-repeat left;
 	background-size: 16px 16px;
 
 }
@@ -136,7 +137,23 @@ header .hide-completed {
 
 .checkbox-up + label:hover, .checkbox-down + label:hover
 {
-    background-color: #e5f2ff;
+    background-color: #4da6ff;
+}
+
+.upvoters, .downvoters 
+{
+	display: none;
+}
+
+.checkbox-up + label:hover .upvoters, .checkbox-down + label:hover .downvoters 
+{
+	display: block;
+	position: absolute;
+	background-color: black;
+	color: white;
+	text-align: center;
+	width:300px; 
+	top:0;
 }
 
 

@@ -30,11 +30,11 @@
 
 <template name="candidate">
 	<li class="{{#if checked}}checked{{/if}}">
-		<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" />
-		<label for="tup{{_id}}"> </label>
+		<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
+		<label for="tup{{_id}}"> ({{nbUpVotes}}) <span class="upvoters">{{upVoters}}</span></label>
 
-		<input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" />
-		<label for="tdown{{_id}}"> </label>
+		<input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVoteDown}} />
+		<label for="tdown{{_id}}"> ({{nbDownVotes}}) <span class="downvoters">{{downVoters}}</span></label>
 
 
     	<button class="delete">&times;</button>

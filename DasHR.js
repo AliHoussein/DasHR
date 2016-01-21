@@ -69,7 +69,7 @@ if (Meteor.isClient) {
   // Session.setDefault('counter', 0);
 
   // set hide complete to checked on startup
-  Session.set("hideCompleted", "checked");
+  Session.set("hideCompleted", "true");
 
   Template.body.helpers({
     candidates: function () {

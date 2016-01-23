@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 accounts-google
 accounts-ui
 twbs:bootstrap@3.3.6
+iron:router

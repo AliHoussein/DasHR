@@ -1,10 +1,8 @@
 <template name="candidates">
 	<h1 class="page-header">Dashboard</h1>
-
           <div class="row placeholders">
-
                 <label class="hide-completed">
-                
+
                 {{#if hideCompleted}}
                 <input type="checkbox" checked />
                 {{else}}
@@ -18,26 +16,74 @@
                 <input type="text" name="name" placeholder="Type to add new candidates" />
               </form>
             {{/if}}
-              <ul>
-            {{#each candidates}}
-                {{> candidate}}
-            {{/each}}
-            </ul>
+              
+              <table class="table table-striped">
+              	<thead>
+              		<tr>
+	              		<th>Vote</th>
+	              		<th>Name</th>
+	              		<th>CV</th>
+	              		<th>Interviews</th>
+              			<th>Details</th>
+              			<th>Source</th>
+              			<th>Treated?</th>
+              		</tr>
+          		</thead>
+	      		<tbody>
+            	{{#each candidates}}
+                	{{> candidate}}
+            	{{/each}}
+            	</tbody>
+            </table>
           </div>
 </template>
 
 
 <template name="candidate">
-    <li class="{{#if checked}}checked{{/if}}">
-        <input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
-        <label for="tup{{_id}}"> ({{nbUpVotes}}) <span class="upvoters">{{upVoters}}</span></label>
+ 		<tr class="{{isCandidateTreatedClass}}">
+			<td>
+				<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
+		        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{upVoters}}"> ({{nbUpVotes}})</label><br />
+		        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVoteDown}} />
+		        <label for="tdown{{_id}}" data-toggle="tooltip" data-placement="right" title="{{downVoters}}"> ({{nbDownVotes}}) </label>
+			</td>
+			<td>
+				{{name}}
+			</td>
+			<td>
+				{{cvurl}}
+			</td>
+			<td>
+		        <input type="checkbox" name="intone" id="intone{{_id}}" {{intone}} class="checkbox-inline" />
+		        <label for="intone{{_id}}">1</label>
+				<input type="checkbox" name="inttwo" id="inttwo{{_id}}" {{intone}} class="checkbox-inline" />
+		        <label for="inttwo{{_id}}">2</label>
+				<input type="checkbox" name="intthree" id="intthree{{_id}}" {{intone}} class="checkbox-inline" />
+		        <label for="intthree{{_id}}">3</label>
+			</td>
+			<td>
+		        <input type="radio" name="nationality" id="aus{{_id}}" {{intone}} class="radio-inline" />
+		        <label for="aus{{_id}}">AU/PR</label>
+				<input type="radio" name="nationality" id="fr{{_id}}" {{intone}} class="radio-inline"/>
+		        <label for="fr{{_id}}">FR</label>
+				<input type="radio" name="nationality" id="other{{_id}}" {{intone}} class="radio-inline" />
+		        <label for="other{{_id}}">Other</label>
+			</td>
+			<td>
+				<select class="form-control input-sm">
+				  <option value="recruiter">Recruiter</option>
+				  <option value="octo.com">octo.com</option>
+				  <option value="Social media">Social media</option>
+				  <option value="Personal Referal">Personal Referal</option>
+				  <option value="Direct Application">Direct Application</option>
+				  <option value="Other">Other</option>
 
-        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVoteDown}} />
-        <label for="tdown{{_id}}"> ({{nbDownVotes}}) <span class="downvoters">{{downVoters}}</span></label>
+				</select>
+			</td>
+			<td>
+		        <input type="checkbox" checked="{{treated}}" class="toggle-treated" />
+            	<button class="delete">&times;</button>
+			</td>
+		</tr>
 
-
-        <button class="delete">&times;</button>
-        <span class="text">{{name}} ({{createdAt}})</span>
-        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
-    </li>
 </template>

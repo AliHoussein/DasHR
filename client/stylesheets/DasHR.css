@@ -113,13 +113,14 @@ header .hide-completed {
  
 .checkbox-up + label, .checkbox-down + label
 {
-    background:url('thumbup.png') no-repeat left;
+  background:url('thumbup.png') no-repeat left;
 	background-size: 16px 16px;
 	height: 24px;
-	width: 30px;
+	width: 40px;
 	display:inline-block;
 	border: 1px solid #66b2ff; 
-	padding: 0 0 0 0px;
+  border-radius: 6px;
+	padding: 0 5px 0 20px;
 	cursor: pointer;
 	text-align: right;
 }
@@ -139,23 +140,6 @@ header .hide-completed {
 {
     background-color: #4da6ff;
 }
-
-.upvoters, .downvoters 
-{
-	display: none;
-}
-
-.checkbox-up + label:hover .upvoters, .checkbox-down + label:hover .downvoters 
-{
-	display: block;
-	position: absolute;
-	background-color: black;
-	color: white;
-	text-align: center;
-	width:300px; 
-	top:0;
-}
-
 
 /*
 .toggle-private {

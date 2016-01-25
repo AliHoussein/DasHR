@@ -15,15 +15,22 @@
       }
       return this.downvotes;
     },
+    isCandidateTreatedClass: function () {
+    	if (this.treated) {
+    		return 'treated info';
+    	}
+    }
   });
 
   Template.candidate.events({
-    "click .toggle-checked": function () {
-      // Set the checked property to the opposite of its current value
+  	//when the treated button has been clicked
+    "click .toggle-treated": function () {
+      // Set the treated property to the opposite of its current value
       Candidates.update(this._id, {
-        $set: {checked: ! this.checked}
+        $set: {treated: ! this.treated}
       });
     },
+    //when delete button has been clicked
     "click .delete": function () {
       Candidates.remove(this._id);
     },
@@ -54,6 +61,17 @@
           $pull:conditions
         });
       }
+
+      //update front - fetch the updated object 
+      // and update the jquery data-original-title and title attr 
+      // because method of the collection does not seem to be updated automatically in candidates.html
+	  var reCan = Candidates.findOne({_id: this._id})
+	  $('label[for="tup'+this._id+'"]').tooltip('hide')
+	  									.attr('data-original-title', reCan.upVoters())
+	  									.attr('title', reCan.upVoters())
+	  									.tooltip('fixTitle')
+	  									.tooltip('show');
+
     },
 
     //when the checkbox thumb DOWN has been clicked
@@ -80,6 +98,22 @@
           $pull:conditions
         });      
       }
+
+      //update front
+      var reCan = Candidates.findOne({_id: this._id})
+	  $('label[for="tdown'+this._id+'"]').tooltip('hide')
+	  									.attr('data-original-title', reCan.downVoters())
+	  									.attr('title', reCan.downVoters())
+	  									.tooltip('fixTitle')
+	  									.tooltip('show');
     }
 
   });
+
+
+Template.candidate.rendered = function () {
+	//initialize all tooltips in this template
+	$('label[data-toggle="tooltip"]').tooltip({
+      'animation' : false // http://stackoverflow.com/questions/13894674/can-i-change-title-of-bootstrap-tooltip-without-hiding-it
+	});
+};

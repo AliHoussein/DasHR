@@ -6,8 +6,8 @@
   Template.candidates.helpers({
     candidates: function () {
       if (Session.get("hideCompleted")) {
-        // If hide no go candidates is checked, filter tasks
-        return Candidates.find({ checked: {$ne: true}}, {sort: {createdAt: -1}});
+        // If hide no go candidates is treated, filter tasks
+        return Candidates.find({ treated: {$ne: true}}, {sort: {createdAt: -1}});
       } else {
         return Candidates.find({}, {sort: {createdAt: -1}});
       }
@@ -17,7 +17,7 @@
     },
     //counts all the candidates not treated (aka no go or hired)
     incompleteCount: function () { 
-      return Candidates.find({checked: {$ne: true}}).count();
+      return Candidates.find({treated: {$ne: true}}).count();
     }
   });
 
@@ -48,4 +48,3 @@
     }
   });
 
-  

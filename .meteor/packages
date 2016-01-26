@@ -24,4 +24,3 @@ twbs:bootstrap@3.3.6
 iron:router
 cfs:standard-packages
 cfs:gridfs
-cfs:ejson-file

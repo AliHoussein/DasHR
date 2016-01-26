@@ -51,10 +51,14 @@
 				{{name}}
 			</td>
 			<td>
-				<input type="file" name="..." class="resumeInput" />
-				{{#with resume}}
-					{{this.url}}
-				{{/with}}
+				{{#if getResume}}
+					{{#with getResume}}
+						<a href="{{this.url download=true}}" class="btn btn-primary btn-xs">Download</a>
+						<button class="btn btn-danger btn-xs deleteResume">x</button>
+					{{/with}}
+				{{else}}
+					<input type="file" name="..." class="file resumeInput" />
+				{{/if}}
 			</td>
 			<td>
 		        <input type="checkbox" name="intone" id="intone{{_id}}" {{intone}} class="checkbox-inline" />

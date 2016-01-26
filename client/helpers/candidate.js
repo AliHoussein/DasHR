@@ -78,7 +78,7 @@
     //TODO: OPTIMISATION POSSIBLE WITH the above checkbox-up function
     "click .checkbox-down": function () {
 
-      var conditions = {'votes': {
+      var data = {'votes': {
               direction: "-",
               ownerID: Meteor.userId(),
               username: Meteor.user().profile.name,
@@ -89,14 +89,15 @@
       if (event.target.checked) {
         Candidates.update({_id: this._id}, {
           $inc: {downvotes: 1},
-          $push:conditions
+          $push:data
         });
       }
       else {
         Candidates.update({_id: this._id}, {
           $inc: {downvotes: -1},
-          $pull:conditions
-        });      
+          $pull:data
+        });  
+
       }
 
       //update front
@@ -107,14 +108,40 @@
 	  									.tooltip('fixTitle')
 	  									.tooltip('show');
     },
-    'change .resumeInput': function(event, template) {    	
-    	var files = event.target.files;
-		var fileObj = ResumesCollection.insert(files[0])
-      	console.log('Upload result: ', fileObj);
+    'change .resumeInput': function(event, template) {  
+        var resumeFile = event.target.files[0];
+        resumeFile = new FS.File(resumeFile);
 
-		Candidates.update({_id: this._id}, {
-			$set: {resume: fileObj}
-		});
+        resumeFile.metadata = { 
+	      	candidateId: this._id,
+	      	type: "resume" 
+	      };
+
+        // this method does not allow me to insert metadata I want
+
+	    // FS.Utility.eachFile(event, function(file) {
+	    //   var resumeFile = new FS.File(file);
+	    //   resumeFile.metadata = { 
+	    //   	candidateId: this._id,
+	    //   	type: "resume" 
+	    //   };
+
+	    //   console.log(this._id);
+
+	      Resumes.insert(resumeFile, function (err, fileObj) {
+	        //If !err, we have inserted new doc with ID fileObj._id, and
+	        //kicked off the data upload using HTTP
+	      });
+    },
+    'click .deleteResume': function() {
+    	// this == the file and not the candidate because we are in the #with getResume block
+    	var deleteResume = this.remove();
+
+    // 	Resumes.remove(resume, function(err, file) {
+	   //  	if (err) {
+	   //    		console.log('error', err);
+	   //  	};
+  		// });
     }
   });
 

@@ -22,7 +22,7 @@
               		<tr>
 	              		<th>Vote</th>
 	              		<th>Name</th>
-	              		<th>CV</th>
+	              		<th>Resume</th>
 	              		<th>Interviews</th>
               			<th>Details</th>
               			<th>Source</th>
@@ -51,7 +51,10 @@
 				{{name}}
 			</td>
 			<td>
-				{{cvurl}}
+				<input type="file" name="..." class="resumeInput" />
+				{{#with resume}}
+					{{this.url}}
+				{{/with}}
 			</td>
 			<td>
 		        <input type="checkbox" name="intone" id="intone{{_id}}" {{intone}} class="checkbox-inline" />

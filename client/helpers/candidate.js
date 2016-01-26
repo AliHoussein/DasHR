@@ -106,8 +106,16 @@
 	  									.attr('title', reCan.downVoters())
 	  									.tooltip('fixTitle')
 	  									.tooltip('show');
-    }
+    },
+    'change .resumeInput': function(event, template) {    	
+    	var files = event.target.files;
+		var fileObj = ResumesCollection.insert(files[0])
+      	console.log('Upload result: ', fileObj);
 
+		Candidates.update({_id: this._id}, {
+			$set: {resume: fileObj}
+		});
+    }
   });
 
 

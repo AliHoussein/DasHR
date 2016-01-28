@@ -7,7 +7,7 @@
     candidates: function () {
       if (Session.get("hideCompleted")) {
         // If hide no go candidates is treated, filter tasks
-        return Candidates.find({ treated: {$ne: true}}, {sort: {createdAt: -1}});
+        return Candidates.find({"process.nogo": {$ne: true}, "process.hired": {$ne: true}}, {sort: {createdAt: -1}});
       } else {
         return Candidates.find({}, {sort: {createdAt: -1}});
       }
@@ -17,7 +17,7 @@
     },
     //counts all the candidates not treated (aka no go or hired)
     incompleteCount: function () { 
-      return Candidates.find({treated: {$ne: true}}).count();
+      return Candidates.find({'process.nogo': {$ne: true}}).count();
     }
   });
 

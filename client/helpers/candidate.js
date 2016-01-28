@@ -15,25 +15,69 @@
       }
       return this.downvotes;
     },
-    isCandidateTreatedClass: function () {
-    	if (this.treated) {
-    		return 'treated info';
+    isCandidateDone: function () {
+    	if (this.process && this.process.nogo) {
+    		return 'treated danger';
     	}
+      else if (this.process && this.process.hired) {
+        return 'treated success';
+      }
     }
   });
 
   Template.candidate.events({
-  	//when the treated button has been clicked
-    "click .toggle-treated": function () {
-      // Set the treated property to the opposite of its current value
+
+  	//when the nogo button has been clicked
+    "click .toggle-nogo": function () {
+      var nogoAt = "";
+      var processHired = this.getHiredStatus();
+      var processHiredAt = this.getHiredDate();
+
+      // find out if we unchecked the box or not, if not we checked the box and initialize variables
+      if (!this.getNogoStatus()) {
+        nogoAt = new Date();
+        processHired = false;
+        processHiredAt = ""
+      } 
+
       Candidates.update(this._id, {
-        $set: {treated: ! this.treated}
+        $set: {
+          'process.nogo': !this.getNogoStatus(),
+          'process.nogoAt': nogoAt,
+          'process.hired': processHired,
+          'process.hiredAt': processHiredAt, 
+        }
+      });
+    },
+    // if the hired button has been clicked
+    "click .toggle-hired": function () {
+      // initialize variables in order to have coherent DB values
+      var hiredAt = "";
+      var processNogo = this.getNogoStatus();
+      var processNogoAt = this.getNogoDate();
+      
+      // find out if we unchecked the box or not, if not we checked the box and initialize variables
+      if (!this.getHiredStatus()) {
+        hiredAt = new Date();
+        processNogo = false;
+        processNogoAt = "";
+      } 
+
+      Candidates.update(this._id, {
+        $set: {
+          'process.hired': !this.getHiredStatus(),
+          'process.hiredAt': hiredAt, 
+          'process.nogo': processNogo,
+          'process.nogoAt':  processNogoAt 
+        }
       });
     },
     //when delete button has been clicked
     "click .delete": function () {
       Candidates.remove(this._id);
     },
+
+    // VOTE SYSTEM
 
     //when the checkbox thumb UP has been clicked
     "click .checkbox-up": function () {
@@ -108,6 +152,9 @@
 	  									.tooltip('fixTitle')
 	  									.tooltip('show');
     },
+
+    // RESUME LOADING
+
     'change .resumeInput': function(event, template) {  
         var resumeFile = event.target.files[0];
         resumeFile = new FS.File(resumeFile);

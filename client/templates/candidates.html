@@ -23,7 +23,7 @@
 	              		<th>Vote</th>
 	              		<th>Name</th>
 	              		<th>Resume</th>
-	              		<th>Interviews</th>
+	              		<th>Status</th>
               			<th>Details</th>
               			<th>Source</th>
               			<th>Treated?</th>
@@ -40,7 +40,7 @@
 
 
 <template name="candidate">
- 		<tr class="{{isCandidateTreatedClass}}">
+ 		<tr class="{{isCandidateDone}}">
 			<td>
 				<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
 		        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{upVoters}}"> ({{nbUpVotes}})</label><br />
@@ -61,12 +61,16 @@
 				{{/if}}
 			</td>
 			<td>
-		        <input type="checkbox" name="intone" id="intone{{_id}}" {{intone}} class="checkbox-inline" />
 		        <label for="intone{{_id}}">1</label>
-				<input type="checkbox" name="inttwo" id="inttwo{{_id}}" {{intone}} class="checkbox-inline" />
+		        <input type="checkbox" name="intone" id="intone{{_id}}" checked="{{process.intone}}" class="toggle-int1 checkbox-inline" />
 		        <label for="inttwo{{_id}}">2</label>
-				<input type="checkbox" name="intthree" id="intthree{{_id}}" {{intone}} class="checkbox-inline" />
+				<input type="checkbox" name="inttwo" id="inttwo{{_id}}" checked="{{process.inttwo}}" class="toggle-int2  checkbox-inline" />
 		        <label for="intthree{{_id}}">3</label>
+				<input type="checkbox" name="intthree" id="intthree{{_id}}" checked="{{process.intthree}}" class="toggle-int3 checkbox-inline" />
+		        <label for="nogo{{_id}}">Nogo</label>
+		        <input type="checkbox" id="nogo{{_id}}" checked="{{getNogoStatus}}" class="toggle-nogo checkbox-inline" />
+		        <label for="hired{{_id}}">Hired</label>
+		        <input type="checkbox" id="hired{{_id}}" checked="{{getHiredStatus}}" class="toggle-hired checkbox-inline" />
 			</td>
 			<td>
 		        <input type="radio" name="nationality" id="aus{{_id}}" {{intone}} class="radio-inline" />
@@ -88,7 +92,6 @@
 				</select>
 			</td>
 			<td>
-		        <input type="checkbox" checked="{{treated}}" class="toggle-treated" />
             	<button class="delete">&times;</button>
 			</td>
 		</tr>

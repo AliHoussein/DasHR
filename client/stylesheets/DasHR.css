@@ -113,7 +113,7 @@ header .hide-completed {
  
 .checkbox-up + label, .checkbox-down + label
 {
-  background:url('thumbup.png') no-repeat left;
+  background:#FFF url('thumbup.png') no-repeat left;
 	background-size: 16px 16px;
 	height: 24px;
 	width: 40px;
@@ -126,7 +126,7 @@ header .hide-completed {
 }
 
 .checkbox-down + label {
-    background:url('thumbdown.png') no-repeat left;
+  background:#FFF url('thumbdown.png') no-repeat left;
 	background-size: 16px 16px;
 
 }

@@ -42,6 +42,11 @@
  
       // Clear form
       event.target.name.value = "";
+
+      //post to Slack
+      Meteor.call('slackPost', "general", "Time to vote, new candidate applied: "+ name);
+
+
     },
     "change .hide-completed input" : function (event) {
       Session.set("hideCompleted", event.target.checked);

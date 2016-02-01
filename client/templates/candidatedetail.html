@@ -28,7 +28,17 @@
 
 
           </div>
-          <div class="col-md-6">PDF VIEW</div>
+          <div class="col-md-6">
+
+            {{#if getResume}}
+              {{#with getResume}}
+                <embed src="{{this.url}}" width="100%" height="600" type="application/pdf" />
+              {{/with}}
+            {{else}}
+              Upload a resume
+              <input type="file" name="..." class="file resumeInput" />
+            {{/if}}
+          </div>
           </div>
 </template>
 

@@ -31,7 +31,7 @@
       var name = event.target.name.value;
  
       // Insert a task into the collection
-      Candidates.insert({
+      var id = Candidates.insert({
         name: name,
         createdAt: new Date(), // current time
         owner: Meteor.userId(), // _id of logged in user
@@ -39,12 +39,14 @@
         upvotes: 0,
         downvotes: 0
       });
- 
+      console.log(id);
+
       // Clear form
       event.target.name.value = "";
 
       //post to Slack
-      Meteor.call('slackPost', "general", "Time to vote, new candidate applied: "+ name);
+      var slackLink = "<"+Router.routes.candidatedetail.url({ _id: id })+"|"+name+">";
+      Meteor.call('slackPost', "general", "Time to vote, new candidate applied: "+ slackLink);
 
 
     },

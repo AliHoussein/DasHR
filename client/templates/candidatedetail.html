@@ -1,49 +1,41 @@
 <template name="candidatedetail">
 	<h1 class="page-header">{{name}}</h1>
-          <div class="row placeholders">
-              <table class="table table-striped">
-              	<thead>
-              		<tr>
-	              		<th>Vote</th>
-	              		<th>Name</th>
-	              		<th>Resume</th>
-	              		<th>Status</th>
-              			<th>Details</th>
-              			<th>Source</th>
-              			<th></th>
-              		</tr>
-          		</thead>
-	      		<tbody>
-                	{{> candidate}}
-            	</tbody>
-            </table>
-          </div>
           <div class="row">
-          <div class="col-md-6">
-            Interview 1
-            Interview 2
-            Interview 3
+            <div class="col-md-6">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Vote</th>
+                      <th>Name</th>
+                      <th>Resume</th>
+                      <th>Status</th>
+                      <th>Details</th>
+                      <th>Source</th>
+                      <th></th>
+                    </tr>
+                </thead>
+              <tbody>
+                    {{> candidate}}
+                </tbody>
+              </table>
 
-            Attachments
+              Interview 1
+              Interview 2
+              Interview 3
 
+              Attachments
 
+            </div>
+            <div class="col-md-6">
+              {{#if getResume}}
+                {{#with getResume}}
+                  <embed src="{{this.url}}" width="100%" height="600" type="application/pdf" />
+                {{/with}}
+              {{else}}
+<!--                 <p>Upload a resume
+                <input type="file" name="..." class="file resumeInput" />
+                </p> -->
+              {{/if}}
+            </div>
           </div>
-          <div class="col-md-6">
-
-            {{#if getResume}}
-              {{#with getResume}}
-                <embed src="{{this.url}}" width="100%" height="600" type="application/pdf" />
-              {{/with}}
-            {{else}}
-              Upload a resume
-              <input type="file" name="..." class="file resumeInput" />
-            {{/if}}
-          </div>
-          </div>
-</template>
-
-
-
-<template name="candidatetwocols">
-
 </template>

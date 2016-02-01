@@ -26,7 +26,7 @@
 	              		<th>Status</th>
               			<th>Details</th>
               			<th>Source</th>
-              			<th>Treated?</th>
+              			<th></th>
               		</tr>
           		</thead>
 	      		<tbody>
@@ -39,61 +39,3 @@
 </template>
 
 
-<template name="candidate">
- 		<tr class="{{isCandidateDone}}">
-			<td>
-				<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
-		        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{upVoters}}"> ({{nbUpVotes}})</label><br />
-		        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVoteDown}} />
-		        <label for="tdown{{_id}}" data-toggle="tooltip" data-placement="right" title="{{downVoters}}"> ({{nbDownVotes}}) </label>
-			</td>
-			<td>
-				{{name}}
-			</td>
-			<td>
-				{{#if getResume}}
-					{{#with getResume}}
-						<a href="{{this.url download=true}}" class="btn btn-primary btn-xs">Download</a>
-						<button class="btn btn-danger btn-xs deleteResume">x</button>
-					{{/with}}
-				{{else}}
-					<input type="file" name="..." class="file resumeInput" />
-				{{/if}}
-			</td>
-			<td>
-		        <label for="intone{{_id}}">1</label>
-		        <input type="checkbox" name="intone" id="intone{{_id}}" checked="{{process.intone}}" class="toggle-int1 checkbox-inline" />
-		        <label for="inttwo{{_id}}">2</label>
-				<input type="checkbox" name="inttwo" id="inttwo{{_id}}" checked="{{process.inttwo}}" class="toggle-int2  checkbox-inline" />
-		        <label for="intthree{{_id}}">3</label>
-				<input type="checkbox" name="intthree" id="intthree{{_id}}" checked="{{process.intthree}}" class="toggle-int3 checkbox-inline" />
-		        <label for="nogo{{_id}}">Nogo</label>
-		        <input type="checkbox" id="nogo{{_id}}" checked="{{getNogoStatus}}" class="toggle-nogo checkbox-inline" />
-		        <label for="hired{{_id}}">Hired</label>
-		        <input type="checkbox" id="hired{{_id}}" checked="{{getHiredStatus}}" class="toggle-hired checkbox-inline" />
-			</td>
-			<td>
-		        <input type="radio" name="nationality" id="aus{{_id}}" {{intone}} class="radio-inline" />
-		        <label for="aus{{_id}}">AU/PR</label>
-				<input type="radio" name="nationality" id="fr{{_id}}" {{intone}} class="radio-inline"/>
-		        <label for="fr{{_id}}">FR</label>
-				<input type="radio" name="nationality" id="other{{_id}}" {{intone}} class="radio-inline" />
-		        <label for="other{{_id}}">Other</label>
-			</td>
-			<td>
-				<select class="form-control input-sm">
-				  <option value="recruiter">Recruiter</option>
-				  <option value="octo.com">octo.com</option>
-				  <option value="Social media">Social media</option>
-				  <option value="Personal Referal">Personal Referal</option>
-				  <option value="Direct Application">Direct Application</option>
-				  <option value="Other">Other</option>
-
-				</select>
-			</td>
-			<td>
-            	<button class="delete">&times;</button>
-			</td>
-		</tr>
-
-</template>

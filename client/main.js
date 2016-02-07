@@ -1,17 +1,17 @@
 
-if (Meteor.isClient) {
-  // counter starts at 0
-  // Session.setDefault('counter', 0);
+// if (Meteor.isClient) {
+//   // counter starts at 0
+//   // Session.setDefault('counter', 0);
 
 
 
-  // Template.hello.events({
-  //   'click button': function () {
-  //     // increment the counter when button is clicked
-  //     Session.set('counter', Session.get('counter') + 10);
-  //   }
-  // });
-}
+//   // Template.hello.events({
+//   //   'click button': function () {
+//   //     // increment the counter when button is clicked
+//   //     Session.set('counter', Session.get('counter') + 10);
+//   //   }
+//   // });
+// }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {

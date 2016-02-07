@@ -1,201 +1,35 @@
 
-
   Template.candidate.helpers({
-    nbUpVotes: function () {
-      if (typeof this.upvotes === 'undefined')
+    nbVotes: function (propname) {
+      if (typeof this[propname] === 'undefined')
       {
         return 0;
       }
-      return this.upvotes;
-    },
-    nbDownVotes: function () {
-      if (typeof this.downvotes === 'undefined')
-      {
-        return 0;
-      }
-      return this.downvotes;
+      return this[propname];
     },
     isCandidateDone: function () {
-    	if (this.process && this.process.nogo) {
+    	if (this.action && this.action.nogo) {
     		return 'treated danger';
     	}
-      else if (this.process && this.process.hired) {
+      else if (this.action && this.action.hired) {
         return 'treated success';
       }
+    },
+    didIVote: function (direction) {
+      if (this.myVote(direction).length > 0)
+      {
+          return "checked"
+      }
+      return "";
+    },
+    isNationality: function(nationality) {
+      if (this.nationality && this.nationality == nationality) {
+        //return 'checked="checked"';
+        return 'checked';
+      }
+      return "";
     }
+
   });
 
-  Template.candidate.events({
-
-  	//when the nogo button has been clicked
-    "click .toggle-nogo": function () {
-      var nogoAt = "";
-      var processHired = this.getHiredStatus();
-      var processHiredAt = this.getHiredDate();
-
-      // find out if we unchecked the box or not, if not we checked the box and initialize variables
-      if (!this.getNogoStatus()) {
-        nogoAt = new Date();
-        processHired = false;
-        processHiredAt = ""
-      } 
-
-      Candidates.update(this._id, {
-        $set: {
-          'process.nogo': !this.getNogoStatus(),
-          'process.nogoAt': nogoAt,
-          'process.hired': processHired,
-          'process.hiredAt': processHiredAt, 
-        }
-      });
-    },
-    // if the hired button has been clicked
-    "click .toggle-hired": function () {
-      // initialize variables in order to have coherent DB values
-      var hiredAt = "";
-      var processNogo = this.getNogoStatus();
-      var processNogoAt = this.getNogoDate();
-      
-      // find out if we unchecked the box or not, if not we checked the box and initialize variables
-      if (!this.getHiredStatus()) {
-        hiredAt = new Date();
-        processNogo = false;
-        processNogoAt = "";
-      } 
-
-      Candidates.update(this._id, {
-        $set: {
-          'process.hired': !this.getHiredStatus(),
-          'process.hiredAt': hiredAt, 
-          'process.nogo': processNogo,
-          'process.nogoAt':  processNogoAt 
-        }
-      });
-    },
-    //when delete button has been clicked
-    "click .delete": function () {
-      Candidates.remove(this._id);
-    },
-
-    // VOTE SYSTEM
-
-    //when the checkbox thumb UP has been clicked
-    "click .checkbox-up": function () {
-
-      // update the sub documents votes 
-      var conditions = {'votes': {
-              direction: "+",
-              ownerID: Meteor.userId(),
-              username: Meteor.user().profile.name,
-            }
-      }
-      
-      //+1
-      if (event.target.checked) {
-        //TODO: TO IMPROVE TO SECURELY AND CONSISTENTLY ALLOW ONLY ONE VOTE: 
-        // http://fr.discovermeteor.com/chapters/voting/ cf. titre Algorithme de vote plus intelligent
-        Candidates.update({_id: this._id}, {
-          $inc: {upvotes: 1},
-          $push:conditions
-        });
-      }
-      else { 
-        Candidates.update({_id: this._id}, {
-          $inc: {upvotes: -1},
-          $pull:conditions
-        });
-      }
-
-      //update front - fetch the updated object 
-      // and update the jquery data-original-title and title attr 
-      // because method of the collection does not seem to be updated automatically in candidates.html
-	  var reCan = Candidates.findOne({_id: this._id})
-	  $('label[for="tup'+this._id+'"]').tooltip('hide')
-	  									.attr('data-original-title', reCan.upVoters())
-	  									.attr('title', reCan.upVoters())
-	  									.tooltip('fixTitle')
-	  									.tooltip('show');
-
-    },
-
-    //when the checkbox thumb DOWN has been clicked
-    //TODO: OPTIMISATION POSSIBLE WITH the above checkbox-up function
-    "click .checkbox-down": function () {
-
-      var data = {'votes': {
-              direction: "-",
-              ownerID: Meteor.userId(),
-              username: Meteor.user().profile.name,
-            }
-      }
-
-      //-1
-      if (event.target.checked) {
-        Candidates.update({_id: this._id}, {
-          $inc: {downvotes: 1},
-          $push:data
-        });
-      }
-      else {
-        Candidates.update({_id: this._id}, {
-          $inc: {downvotes: -1},
-          $pull:data
-        });  
-
-      }
-
-      //update front
-      var reCan = Candidates.findOne({_id: this._id})
-	  $('label[for="tdown'+this._id+'"]').tooltip('hide')
-	  									.attr('data-original-title', reCan.downVoters())
-	  									.attr('title', reCan.downVoters())
-	  									.tooltip('fixTitle')
-	  									.tooltip('show');
-    },
-
-    // RESUME LOADING
-
-    'change .resumeInput': function(event, template) {  
-        var resumeFile = event.target.files[0];
-        resumeFile = new FS.File(resumeFile);
-
-        resumeFile.metadata = { 
-	      	candidateId: this._id,
-	      	type: "resume" 
-	      };
-
-        // this method does not allow me to insert metadata I want
-
-	    // FS.Utility.eachFile(event, function(file) {
-	    //   var resumeFile = new FS.File(file);
-	    //   resumeFile.metadata = { 
-	    //   	candidateId: this._id,
-	    //   	type: "resume" 
-	    //   };
-
-	    //   console.log(this._id);
-
-	      Resumes.insert(resumeFile, function (err, fileObj) {
-	        //If !err, we have inserted new doc with ID fileObj._id, and
-	        //kicked off the data upload using HTTP
-	      });
-    },
-    'click .deleteResume': function() {
-    	// this == the file and not the candidate because we are in the #with getResume block
-    	var deleteResume = this.remove();
-
-    // 	Resumes.remove(resume, function(err, file) {
-	   //  	if (err) {
-	   //    		console.log('error', err);
-	   //  	};
-  		// });
-    }
-  });
-
-
-Template.candidate.rendered = function () {
-	//initialize all tooltips in this template
-	$('label[data-toggle="tooltip"]').tooltip({
-      'animation' : false // http://stackoverflow.com/questions/13894674/can-i-change-title-of-bootstrap-tooltip-without-hiding-it
-	});
-};
+  

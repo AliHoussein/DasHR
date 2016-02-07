@@ -2,10 +2,12 @@
 <template name="candidate">
  		<tr class="{{isCandidateDone}}">
 			<td>
-				<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVoteUp}} />
-		        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{upVoters}}"> ({{nbUpVotes}})</label><br />
-		        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVoteDown}} />
-		        <label for="tdown{{_id}}" data-toggle="tooltip" data-placement="right" title="{{downVoters}}"> ({{nbDownVotes}}) </label>
+				{{#unless action.hired}}
+					<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVote '+'}} />
+			        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{getVotersNames '+'}}"> ({{nbVotes 'upvotes'}})</label><br />
+			        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVote '-'}} />
+			        <label for="tdown{{_id}}" data-toggle="tooltip" data-placement="right" title="{{getVotersNames '-'}}"> ({{nbVotes 'downvotes'}}) </label>
+		        {{/unless}}
 			</td>
 			<td>
 				<a href="{{pathFor route='candidatedetail'}}">{{name}}</a>
@@ -21,23 +23,23 @@
 				{{/if}}
 			</td>
 			<td>
-		        <label for="intone{{_id}}">1</label>
-		        <input type="checkbox" name="intone" id="intone{{_id}}" checked="{{process.intone}}" class="toggle-int1 checkbox-inline" />
-		        <label for="inttwo{{_id}}">2</label>
-				<input type="checkbox" name="inttwo" id="inttwo{{_id}}" checked="{{process.inttwo}}" class="toggle-int2  checkbox-inline" />
-		        <label for="intthree{{_id}}">3</label>
-				<input type="checkbox" name="intthree" id="intthree{{_id}}" checked="{{process.intthree}}" class="toggle-int3 checkbox-inline" />
+		        <label for="int1{{_id}}">1</label>
+		        <input type="checkbox" name="intone" id="int1{{_id}}" checked="{{action.interview1}}" class="toggle-int1 checkbox-inline" />
+		        <label for="int2{{_id}}">2</label>
+				<input type="checkbox" name="inttwo" id="int2{{_id}}" checked="{{action.interview2}}" class="toggle-int2  checkbox-inline" />
+		        <label for="int3{{_id}}">3</label>
+				<input type="checkbox" name="intthree" id="int3{{_id}}" checked="{{action.interview3}}" class="toggle-int3 checkbox-inline" />
 		        <label for="nogo{{_id}}">Nogo</label>
-		        <input type="checkbox" id="nogo{{_id}}" checked="{{getNogoStatus}}" class="toggle-nogo checkbox-inline" />
+		        <input type="checkbox" id="nogo{{_id}}" checked="{{action.nogo}}" class="toggle-nogo checkbox-inline" />
 		        <label for="hired{{_id}}">Hired</label>
-		        <input type="checkbox" id="hired{{_id}}" checked="{{getHiredStatus}}" class="toggle-hired checkbox-inline" />
+		        <input type="checkbox" id="hired{{_id}}" checked="{{action.hired}}" class="toggle-hired checkbox-inline" />
 			</td>
 			<td>
-		        <input type="radio" name="nationality" id="aus{{_id}}" {{intone}} class="radio-inline" />
+		        <input type="radio" name="nationality{{_id}}" id="aus{{_id}}" value="aupr" class="radio-inline radio-nationality" {{isNationality 'aupr'}} />
 		        <label for="aus{{_id}}">AU/PR</label>
-				<input type="radio" name="nationality" id="fr{{_id}}" {{intone}} class="radio-inline"/>
+				<input type="radio" name="nationality{{_id}}" id="fr{{_id}}" value="fr" class="radio-inline radio-nationality" {{isNationality 'fr'}} />
 		        <label for="fr{{_id}}">FR</label>
-				<input type="radio" name="nationality" id="other{{_id}}" {{intone}} class="radio-inline" />
+				<input type="radio" name="nationality{{_id}}" id="other{{_id}}" value="other" class="radio-inline radio-nationality" {{isNationality 'other'}} />
 		        <label for="other{{_id}}">Other</label>
 			</td>
 			<td>

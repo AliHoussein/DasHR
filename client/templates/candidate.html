@@ -43,13 +43,14 @@
 		        <label for="other{{_id}}">Other</label>
 			</td>
 			<td>
-				<select class="form-control input-sm">
-				  <option value="recruiter">Recruiter</option>
-				  <option value="octo.com">octo.com</option>
-				  <option value="Social media">Social media</option>
-				  <option value="Personal Referal">Personal Referal</option>
-				  <option value="Direct Application">Direct Application</option>
-				  <option value="Other">Other</option>
+				<select class="referer-control input-sm">
+				  <option value="" selected="{{isEqual referer ''}}">Undefined</option>
+				  <option value="recruiter" selected="{{isEqual referer 'recruiter'}}">Recruiter</option>
+				  <option value="octo.com" selected="{{isEqual referer 'octo.com'}}">octo.com</option>
+				  <option value="Social media" selected="{{isEqual referer 'Social media'}}">Social media</option>
+				  <option value="Personal Referal" selected="{{isEqual referer 'Personal Referal'}}">Personal Referal</option>
+				  <option value="Direct Application" selected="{{isEqual referer 'Direct Application'}}">Direct Application</option>
+				  <option value="Other" selected="{{isEqual referer 'Other'}}">Other</option>
 
 				</select>
 			</td>

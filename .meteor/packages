@@ -26,3 +26,4 @@ cfs:standard-packages
 cfs:gridfs
 http
 momentjs:moment
+d3js:d3

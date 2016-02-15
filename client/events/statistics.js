@@ -1,68 +1,123 @@
 
+Template.statistics.events({
+	"click .changemonth": function (event, template) {
+		template.onRendered();
+	}
+})
+
 Template.statistics.onRendered(function () {
 
-    // constants, axes 
-	var margin = {top: 20, right: 20, bottom: 30, left: 40},
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	// hack - https://github.com/meteor/meteor/issues/4732
+	var data = Template.statistics.__helpers.get('candidatesPerDay').call()
 
-	var x = d3.scale.ordinal()
-	    .rangeRoundBands([0, width], .1);
+	// data = [{year: 2006, books: 54},
+	//             {year: 2007, books: 43},
+	//             {year: 2008, books: 41},
+	//             {year: 2009, books: 44},
+	//             {year: 2010, books: 35}];
 
-	var y = d3.scale.linear()
-	    .range([height, 0]);
+	// http://www.recursion.org/d3-for-mere-mortals/
+	var barWidth = 40;
+	var width = (barWidth + 10) * data.length;
+	var height = 200;
 
-	var xAxis = d3.svg.axis()
-	    .scale(x)
-	    .orient("bottom");
+	var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+	var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.nb; })]).
+	  rangeRound([0, height]);
 
-	var yAxis = d3.svg.axis()
-	    .scale(y)
-	    .orient("left")
-	    //.ticks(10, "%");
+	// add the canvas to the DOM
+	var barDemo = d3.select("#mbars").
+	  append("svg:svg").
+	  attr("width", width).
+	  attr("height", height);
 
-	// group and display the svgs
-	var svg = d3.select("#barChart")
-	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
-	  	.append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	barDemo.selectAll("rect").
+	  data(data).
+	  enter().
+	  append("svg:rect").
+	  attr("x", function(datum, index) { return x(index); }).
+	  attr("y", function(datum) { return height - y(datum.nb); }).
+	  attr("height", function(datum) { return y(datum.nb); }).
+	  attr("width", barWidth).
+	  attr("fill", "#2d578b");
 
-	d3.tsv("data2.tsv", type, function(error, data) {
-	  if (error) throw error;
-	  console.log(data);
-	  x.domain(data.map(function(d) { return d.letter; }));
-	  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+	barDemo.selectAll("text").
+	  data(data).
+	  enter().
+	  append("svg:text").
+	  attr("x", function(datum, index) { return x(index) + barWidth; }).
+	  attr("y", function(datum) { return height - y(datum.nb); }).
+	  attr("dx", -barWidth/2).
+	  attr("dy", "1.2em").
+	  attr("text-anchor", "middle").
+	  text(function(datum) { return datum.nb;}).
+	  attr("fill", "white");
 
-	  svg.append("g")
-	      .attr("class", "x axis")
-	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis);
+	barDemo.selectAll("text.yAxis").
+	  data(data).
+	  enter().append("svg:text").
+	  attr("x", function(datum, index) { return x(index) + barWidth; }).
+	  attr("y", height).
+	  attr("dx", -barWidth/2).
+	  attr("text-anchor", "middle").
+	  attr("style", "font-size: 12; font-family: Helvetica, sans-serif").
+	  text(function(datum) { return datum.day;}).
+	  attr("transform", "translate(0, 1)").
+	  attr("class", "yAxis");
 
-	  svg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis)
-	      .append("text")
-	      .attr("transform", "rotate(-90)")
-	      .attr("y", 6)
-	      .attr("dy", ".71em")
-	      .style("text-anchor", "end")
-	      .text("Number");
+	// var margin = {top: 20, right: 20, bottom: 30, left: 40},
+	//     width = 960 - margin.left - margin.right,
+	//     height = 200 - margin.top - margin.bottom;
 
-	  svg.selectAll(".bar")
-	      .data(data)
-	      .enter()
-	      .append("rect")
-	      .attr("class", "bar")
-	      .attr("x", function(d) { return x(d.letter); })
-	      .attr("width", x.rangeBand())
-	      .attr("y", function(d) { return y(d.frequency); })
-	      .attr("height", function(d) { return height - y(d.frequency); });
-	});
+	// var x = d3.scale.ordinal()
+	//     .rangeRoundBands([0, width], .5);
 
-	function type(d) {
-	  d.frequency = +d.frequency;
-	  return d;
-	}
+	// var y = d3.scale.linear()
+	//     .range([height, 0]);
+
+
+ //  	x.domain([1,data.length]); // http://www.recursion.org/d3-for-mere-mortals/
+ //  	y.domain([0, d3.max(data, function(d) { return d.nb; })]);
+
+
+	// var xAxis = d3.svg.axis()
+	//     .scale(x)
+	//     .orient("bottom");
+
+	// var yAxis = d3.svg.axis()
+	//     .scale(y)
+	//     .orient("left")
+	//     .ticks(1);
+
+	// var svg = d3.select("#barChart")//.append("svg")
+	//     .attr("width", width + margin.left + margin.right)
+	//     .attr("height", height + margin.top + margin.bottom)
+	//   .append("g")
+	//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	//   svg.append("g")
+	//       .attr("class", "x axis")
+	//       .attr("transform", "translate(0," + height + ")")
+	//       .call(xAxis);
+
+	//   svg.append("g")
+	//       .attr("class", "y axis")
+	//       .call(yAxis)
+	//     .append("text")
+	//       .attr("transform", "rotate(-90)")
+	//       .attr("y", 6)
+	//       .attr("dy", ".71em")
+	//       .style("text-anchor", "end")
+	//       .text("Number");
+
+	//   svg.selectAll(".bar")
+	//       .data(data)
+	//     	.enter()
+	//     	.append("rect")
+	//       .attr("class", "bar")
+	//       .attr("x", function(d) {  return x(d.day); })
+	//       .attr("width", x.rangeBand())
+	//       .attr("y", function(d) { return y(d.nb); })
+	//       .attr("height", function(d) { return height - y(d.nb); });
 
 });

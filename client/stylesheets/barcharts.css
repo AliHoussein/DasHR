@@ -1,4 +1,4 @@
-.bar {
+/*.bar {
   fill: steelblue;
 }
 
@@ -20,3 +20,8 @@
 .x.axis path {
   display: none;
 }
+
+
+.yAxis {
+	color: black;
+}*/

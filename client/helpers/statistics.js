@@ -26,16 +26,17 @@
 			canPerDay[i] = 0;
 		}
 		//  fill in the array day:nbcandidate
+		// TODO TRY by selecting agregate group by createAt day 
 		candidates.forEach(function (c) {
 			canPerDay[c.createdAt.getDate()] += 1;
 		});
 
-		//format for d3js
+		//format array for d3js
 		var canObj = [];
 		for (var i=day_start; i <= nb_days; i++) {
 			canObj.push({"day": i, "nb": canPerDay[i]});
 		}
-
+		console.log(canObj);
 		return canObj;
 	}
 });

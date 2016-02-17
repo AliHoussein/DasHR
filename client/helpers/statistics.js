@@ -32,11 +32,11 @@
 		});
 
 		//format array for d3js
-		var canObj = [];
-		for (var i=day_start; i <= nb_days; i++) {
-			canObj.push({"day": i, "nb": canPerDay[i]});
-		}
-		console.log(canObj);
-		return canObj;
+		// var canObj = [];
+		// for (var i=day_start; i <= nb_days; i++) {
+		// 	canObj.push({"day": i, "nb": canPerDay[i]});
+		// }
+		console.log(canPerDay);
+		return canPerDay;
 	}
 });

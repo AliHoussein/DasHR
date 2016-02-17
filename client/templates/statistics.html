@@ -4,15 +4,13 @@
              <a href="{{pathFor route='monthly_stats' data=previousMonthRouteParam}}" class="changemonth">Prev Month</a> | {{count}} candidates applied between {{formatDate date_start}} and {{formatDate date_end}} | <a href="{{pathFor route='monthly_stats' data=nextMonthRouteParam}}" class="changemonth">Next Month</a> 
 
 
-			<div class="chart">
-<!-- 			  <div style="width: 40px;">4</div>
-			  <div style="width: 80px;">8</div>
-			  <div style="width: 150px;">15</div>
-			  <div style="width: 160px;">16</div>
-			  <div style="width: 230px;">23</div>
-			  <div style="width: 420px;">42</div> -->
-			</div>
+			<svg class="chart"></svg>
 
+
+
+			<div class="chartdiv">
+				<!-- -->
+			</div>
 
           </div>
 </template>

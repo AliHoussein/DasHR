@@ -24,10 +24,7 @@ var monthlyGraph = function (data, update) {
     	.rangeRoundBands([0, width], .1)
     	.domain(d3data.map(function(d) { return d.key; }));
 
-    //compute y scale
-    var maxy = d3.max(d3data, function(d) { return d.value; });
-    
-	
+    	
 	var yScale = d3.scale.linear()
     		.range([height, 0])
     		.domain([0, d3.max(d3data, function(d) { return d.value; })]);
@@ -36,6 +33,7 @@ var monthlyGraph = function (data, update) {
 	    .scale(xScale)
 	    .orient("bottom");
 
+    var maxy = d3.max(d3data, function(d) { return d.value; });
 	var yAxis = d3.svg.axis()
 	    .scale(yScale)
 	    .orient("left")

@@ -14,29 +14,22 @@
 		return {year: ndate.year(),
 				month: ndate.month()+1 }
 	},
-	candidatesPerDay: function() {
-		var candidates = Template.instance().data.candidates;
-		var date_start = Template.instance().data.date_start;
-		var nb_days = Template.instance().data.nb_days;
-		var day_start = date_start.getDate();
+	// candidatesPerDay: function() {
+	// 	// var candidates = Template.instance().data.candidates;
+	// 	// var date_start = Template.instance().data.date_start;
+	// 	// var nb_days = Template.instance().data.nb_days;
+	// 	// var day_start = date_start.getDate();
 
-		// init the js object
-		var canPerDay = {};
-		for (var i=day_start; i <= nb_days; i++) {
-			canPerDay[i] = 0;
-		}
-		//  fill in the array day:nbcandidate
-		// TODO TRY by selecting agregate group by createAt day 
-		candidates.forEach(function (c) {
-			canPerDay[c.createdAt.getDate()] += 1;
-		});
-
-		//format array for d3js
-		// var canObj = [];
-		// for (var i=day_start; i <= nb_days; i++) {
-		// 	canObj.push({"day": i, "nb": canPerDay[i]});
-		// }
-		console.log(canPerDay);
-		return canPerDay;
-	}
+	// 	// // init the js object
+	// 	// var canPerDay = {};
+	// 	// for (var i=day_start; i <= nb_days; i++) {
+	// 	// 	canPerDay[i] = 0;
+	// 	// }
+	// 	// //  fill in the array day:nbcandidate
+	// 	// // TODO TRY by selecting agregate group by createAt day 
+	// 	// candidates.forEach(function (c) {
+	// 	// 	canPerDay[c.createdAt.getDate()] += 1;
+	// 	// });
+	// 	// return canPerDay;
+	// }
 });

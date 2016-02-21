@@ -1,55 +1,59 @@
 
-function renderMonthlyGraph() {
-	console.log("renderMonthlyGraph")
-	// hack - https://github.com/meteor/meteor/issues/4732
-	// var data = [4, 8, 15, 16, 23, 42];
-	var data = Template.statistics.__helpers.get('candidatesPerDay').call();
-	var d3data = d3.entries(data);
-	//var maxval = Math.max.apply(Math,d3data.map(function(d){return d.value;}))
+var monthlyGraph = function (data, update) {
+	// console.log("renderMonthlyGraph")
 
 	var margin = {top: 20, right: 30, bottom: 40, left: 40},
 	    width = 960 - margin.left - margin.right,
 	    height = 200 - margin.top - margin.bottom;
 
+	var d3data = d3.entries(data);
 
-	var x = d3.scale.ordinal()
+	if (update) {
+        d3.select('#monthlybarchart').remove();
+	}
+
+    svg = d3.select('#bars').append('svg')
+	      .attr('width', width + margin.left + margin.right)
+	      .attr('height', height + margin.top + margin.bottom)
+	      .attr('id', "monthlybarchart")
+	      .append("g")
+	      .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); //move the svg inside boundaries of margins
+
+
+	var xScale = d3.scale.ordinal()
     	.rangeRoundBands([0, width], .1)
     	.domain(d3data.map(function(d) { return d.key; }));
 
-	var y = d3.scale.linear()
-    	.range([height, 0])
-    	.domain([0, d3.max(d3data, function(d) { return d.value; })]);
+    //compute y scale
+    var maxy = d3.max(d3data, function(d) { return d.value; });
+    
+	
+	var yScale = d3.scale.linear()
+    		.range([height, 0])
+    		.domain([0, d3.max(d3data, function(d) { return d.value; })]);
 
 	var xAxis = d3.svg.axis()
-	    .scale(x)
+	    .scale(xScale)
 	    .orient("bottom");
 
 	var yAxis = d3.svg.axis()
-	    .scale(y)
+	    .scale(yScale)
 	    .orient("left")
-	    .ticks(1, "d");
-	    // .tickFormat(d3.format("d"));
+		.tickFormat(d3.format("d")) //to display integer ticks
+		.ticks(maxy) //to display just the number 
 
-
-	var chart = d3.select(".chart")
-	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
-	  .append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	
-
-	chart.append("g")
+	svg.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis)	  
 	    .append("text")
-	    .attr("x", x.rangeBand()*2)
-	    .attr("y", 30)
+	    .attr("x", xScale.rangeBand()*d3data.length)
+	    .attr("y", 35)
 	    .attr("dx", ".71em")
 	    .style("text-anchor", "end")
-	    .text("Day of the month");;
+	    .text("Days");;
 
-	chart.append("g")
+	svg.append("g")
 		.attr("class", "y axis")
 		.call(yAxis)
 		.append("text")
@@ -58,115 +62,83 @@ function renderMonthlyGraph() {
 		.attr("dy", ".71em")
 		.style("text-anchor", "end")
 		.text("Applicants");
+	
+	var bar = svg.selectAll(".bar")
+		  .data(d3data);
 
-    var barWidth = width / d3data.length;
-
-
-	var bar = chart.selectAll(".bar")
-	  .data(d3data)
-	.enter().append("rect") //rect
+	bar.enter().append("rect") //bars of the chart
 	  .attr("class", "bar")
-	  .attr("x", function(d) { return x(d.key); })
-	  .attr("y", function(d) { return y(d.value); })
-	  .attr("height", function(d) { return height - y(d.value); })
-	  .attr("width", x.rangeBand());
+	  .attr("x", function(d) { return xScale(d.key); })
+	  .attr("y", function(d) { return yScale(d.value); })
+	  .attr("height", function(d) { return d.value > 0 ? height - yScale(d.value) : 0; })
+	  .attr("width", xScale.rangeBand());
 	  
-
-	var text = chart.selectAll(".text")
-	  .data(d3data)
-	.enter().append("text") // legend
-	  .attr("x", function(d) { return x(d.key) + (x.rangeBand()/2) +2; })
-	  .attr("y", function(d) { return y(d.value) + 5; })
+	var text = svg.selectAll(".text")
+		  .data(d3data);
+	
+	text.enter().append("text") // legend
+	  .attr("class", "barlegend")
+	  .attr("x", function(d) { return xScale(d.key) + (xScale.rangeBand()/2) +2; })
+	  .attr("y", function(d) { return d.value > 0 ? yScale(d.value) + 5 : 0; })
 	  .attr("dy", ".71em")
 	  .text(function(d) { return d.value > 0 ? d.value : ""; });
-
-	// var bar = chart.selectAll("g")
-	//   	.data(d3data)
-	// 	.enter().append("g")
-	//   	.attr("transform", function(d, i) { return "translate(" + x(d.key) + ",0)"; });
-
-
-	// bar.append("rect")
-	//   .attr("y", function(d) { return y(d.value); })
-	//   .attr("height", function(d) { return height - y(d.value); })
-	//   .attr("width", x.rangeBand());
-
-
-	// bar.append("text")
-	//   .attr("x", barWidth / 2)
-	//   .attr("y", function(d) { return y(d.value) + 3; })
-	//   .attr("dy", ".75em")
-	//   .text(function(d) { return d.value; });
-
-	console.log("end renderMonthlyGraph")
 }
 
-Template.statistics.events({
-	"click .changemonth": function (event, template) {
-		console.log("click .changemonth");
-		renderMonthlyGraph();
-	}
-})
 
 Template.statistics.onRendered(function () {
-	console.log("statistics.onRendered")
+	// console.log("statistics.onRendered")
 
-	renderMonthlyGraph();
+	//reactive re-computation when the router data changes ! 
+	this.autorun(function(comp) {
 
-	// data = [{year: 2006, books: 54},
-	//             {year: 2007, books: 43},
-	//             {year: 2008, books: 41},
-	//             {year: 2009, books: 44},
-	//             {year: 2010, books: 35}];
+		// ===== REACTIVE MONTHLY BARCHART STATS ============
 
-	// MARCHE OK  http://www.recursion.org/d3-for-mere-mortals/
-	// var barWidth = 40;
-	// var width = (barWidth + 10) * data.length;
-	// var height = 200;
+		var params = Router.current().data();
+		var day_start = params.date_start.getDate();
 
-	// var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
-	// var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.nb; })]).
-	//   rangeRound([0, height]);
+		// init empty array
+		var canPerDay = {};
+		for (var i=day_start; i <= params.nb_days; i++) {
+			canPerDay[i] = 0;
+		}
+		// fill in the array day[X] = nbcandidate;
+		params.candidates.forEach(function (c) {
+			canPerDay[c.createdAt.getDate()] += 1;
+		});
 
-	// // add the canvas to the DOM
-	// var barDemo = d3.select("#mbars").
-	//   append("svg:svg").
-	//   attr("width", width).
-	//   attr("height", height);
+		// process the grpah
+		monthlyGraph(canPerDay, !comp.firstRun);
 
-	// barDemo.selectAll("rect").
-	//   data(data).
-	//   enter().
-	//   append("svg:rect").
-	//   attr("x", function(datum, index) { return x(index); }).
-	//   attr("y", function(datum) { return height - y(datum.nb); }).
-	//   attr("height", function(datum) { return y(datum.nb); }).
-	//   attr("width", barWidth).
-	//   attr("fill", "#2d578b");
+		// ===== END REACTIVE MONTHLY BARCHART STATS ============
+		// ===== REACTIVE CIRCLES ============
+		// var svg;
+		// var width = 500;
+		// var height = 75;
+		// var x;
 
-	// barDemo.selectAll("text").
-	//   data(data).
-	//   enter().
-	//   append("svg:text").
-	//   attr("x", function(datum, index) { return x(index) + barWidth; }).
-	//   attr("y", function(datum) { return height - y(datum.nb); }).
-	//   attr("dx", -barWidth/2).
-	//   attr("dy", "1.2em").
-	//   attr("text-anchor", "middle").
-	//   text(function(datum) { return datum.nb;}).
-	//   attr("fill", "white");
+		// if (!comp.firstRun) {
+  //           d3.select('#reactivecircles').remove();
+		// }
 
-	// barDemo.selectAll("text.yAxis").
-	//   data(data).
-	//   enter().append("svg:text").
-	//   attr("x", function(datum, index) { return x(index) + barWidth; }).
-	//   attr("y", height).
-	//   attr("dx", -barWidth/2).
-	//   attr("text-anchor", "middle").
-	//   attr("style", "font-size: 12; font-family: Helvetica, sans-serif").
-	//   text(function(datum) { return datum.day;}).
-	//   attr("transform", "translate(0, 1)").
-	//   attr("class", "yAxis");
-    console.log("end statistics.onRendered")
+	 //    svg = d3.select('#circles').append('svg')
+	 //      .attr('width', width)
+	 //      .attr('height', height)
+	 //      .attr('id', "reactivecircles");
 
+	 //    var data = Circles.findOne().data;
+		// var circles = svg.selectAll('circle').data(data);
+
+  //   	 x = d3.scale.ordinal()
+  //         .domain(d3.range(data.length))
+  //         .rangePoints([0, width], 1);
+    	
+  //       circles = circles.enter().append('circle')
+  //         .attr('cx', function (d, i) { return x(i); })
+  //         .attr('cy', height / 2);
+  
+  //       circles.attr('r', function (d) { return d; });
+		// ===== END REACTIVE CIRCLES ============
+
+
+	});
 });

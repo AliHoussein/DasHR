@@ -1,18 +1,13 @@
 <template name="statistics">
 	<h1 class="page-header">Statistics </h1>
           <div class="row placeholders">
-             <a href="{{pathFor route='monthly_stats' data=previousMonthRouteParam}}" class="changemonth">Prev Month</a> | {{count}} candidates applied between {{formatDate date_start}} and {{formatDate date_end}} | <a href="{{pathFor route='monthly_stats' data=nextMonthRouteParam}}" class="changemonth">Next Month</a> 
+             <a href="{{pathFor route='stats' data=previousMonthRouteParam}}" class="changemonth">Prev Month</a> | {{count}} candidates applied between {{formatDate date_start}} and {{formatDate date_end}} | <a href="{{pathFor route='stats' data=nextMonthRouteParam}}" class="changemonth">Next Month</a> 
+			
+ 			<div id="bars"></div>
 
-
-			<svg class="chart"></svg>
-
-
-
-			<div class="chartdiv">
-				<!-- -->
-			</div>
-
+			<div id="circles"></div>
           </div>
+
 </template>
 
 

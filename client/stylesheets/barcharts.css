@@ -7,14 +7,15 @@
   color: white;
 }*/
 
-.chart rect {
+.bar {
   fill: steelblue;
 }
 
-.chart text {
+.barlegend {
   fill: #FFF;
   font: 10px sans-serif;
   text-anchor: end;
+
 }
 
 .axis text {
@@ -28,6 +29,11 @@
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+/*.axis .minor line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}*/
 
 /*.x.axis path {
   display: none;

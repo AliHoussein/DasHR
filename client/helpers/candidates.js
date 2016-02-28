@@ -7,7 +7,7 @@
     candidates: function () {
       if (Session.get("hideCompleted")) {
         // If hide no go candidates is treated, filter tasks
-        return Candidates.find({"action.nogo": {$ne: true}, "action.hired": {$ne: true}}, {sort: {createdAt: -1}});
+        return Candidates.find({"actions.nogo": {$ne: true}, "actions.hired": {$ne: true}}, {sort: {createdAt: -1}});
       } else {
         return Candidates.find({}, {sort: {createdAt: -1}});
       }

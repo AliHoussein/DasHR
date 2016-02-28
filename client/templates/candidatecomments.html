@@ -22,4 +22,51 @@
   </fieldset>
   </form>
 
+  <form class="commentform form-horizontal">
+    <fieldset>
+      <legend>Timeline</legend>
+
+      <div class="form-group">
+        <div class="col-md-6">                     
+          <textarea class="form-control" id="comment" name="comment"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-6 control-label" for="valcomment"></label>
+        <div class="col-md-6">
+          <button id="valcomment" name="valcomment" class="btn btn-info">Save</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Comment</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each comments}}
+    <tr>
+      <td>{{author}}
+      </td>
+      <td>{{id.getTimestamp}}
+      </td>
+      <td>{{comment}}
+      </td>
+      <td>
+        <button class="deletecom" id="d{{id.valueOf}}">&times;</button>
+      </td>
+      </tr>
+      {{/each}}               
+    </tbody>
+  </table>
+
+
 </template>

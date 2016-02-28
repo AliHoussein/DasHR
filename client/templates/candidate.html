@@ -2,7 +2,7 @@
 <template name="candidate">
  		<tr class="{{isCandidateDone}}">
 			<td>
-				{{#unless action.hired}}
+				{{#unless actions.hired}}
 					<input type="checkbox" name="thumbup" id="tup{{_id}}" class="checkbox-up" {{didIVote '+'}} />
 			        <label for="tup{{_id}}" data-toggle="tooltip" data-placement="right" title="{{getVotersNames '+'}}"> ({{nbVotes 'upvotes'}})</label><br />
 			        <input type="checkbox" name="thumbdown" id="tdown{{_id}}" class="checkbox-down" {{didIVote '-'}} />
@@ -24,15 +24,15 @@
 			</td>
 			<td>
 		        <label for="int1{{_id}}">1</label>
-		        <input type="checkbox" name="intone" id="int1{{_id}}" checked="{{action.interview1}}" class="toggle-int1 checkbox-inline" />
+		        <input type="checkbox" name="intone" id="int1{{_id}}" checked="{{actions.interview1}}" class="toggle-int1 checkbox-inline" />
 		        <label for="int2{{_id}}">2</label>
-				<input type="checkbox" name="inttwo" id="int2{{_id}}" checked="{{action.interview2}}" class="toggle-int2  checkbox-inline" />
+				<input type="checkbox" name="inttwo" id="int2{{_id}}" checked="{{actions.interview2}}" class="toggle-int2  checkbox-inline" />
 		        <label for="int3{{_id}}">3</label>
-				<input type="checkbox" name="intthree" id="int3{{_id}}" checked="{{action.interview3}}" class="toggle-int3 checkbox-inline" />
+				<input type="checkbox" name="intthree" id="int3{{_id}}" checked="{{actions.interview3}}" class="toggle-int3 checkbox-inline" />
 		        <label for="nogo{{_id}}">Nogo</label>
-		        <input type="checkbox" id="nogo{{_id}}" checked="{{action.nogo}}" class="toggle-nogo checkbox-inline" />
+		        <input type="checkbox" id="nogo{{_id}}" checked="{{actions.nogo}}" class="toggle-nogo checkbox-inline" />
 		        <label for="hired{{_id}}">Hired</label>
-		        <input type="checkbox" id="hired{{_id}}" checked="{{action.hired}}" class="toggle-hired checkbox-inline" />
+		        <input type="checkbox" id="hired{{_id}}" checked="{{actions.hired}}" class="toggle-hired checkbox-inline" />
 			</td>
 			<td>
 		        <input type="radio" name="nationality{{_id}}" id="aus{{_id}}" value="aupr" class="radio-inline radio-nationality" {{isNationality 'aupr'}} />

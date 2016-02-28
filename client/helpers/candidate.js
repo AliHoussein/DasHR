@@ -13,10 +13,10 @@
       return this[propname];
     },
     isCandidateDone: function () {
-    	if (this.action && this.action.nogo) {
+    	if (this.actions && this.actions.nogo) {
     		return 'treated danger';
     	}
-      else if (this.action && this.action.hired) {
+      else if (this.actions && this.actions.hired) {
         return 'treated success';
       }
     },

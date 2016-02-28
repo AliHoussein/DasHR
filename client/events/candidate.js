@@ -42,7 +42,6 @@ Template.candidate.events({
       this.setCandidateNationality($(element).val());
     },
     "change .referer-control": function (event, template) {
-      // this.setCandidateReferer("$(event.target).val()");
       this.setCandidateReferer(event.target.value);
     },
     //when delete button has been clicked

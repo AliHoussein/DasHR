@@ -1,0 +1,25 @@
+<template name="candidatecomments">
+  <form class="gonogoform form-horizontal">
+  <fieldset>
+      <!-- Form Name -->
+      <legend>Final decision</legend>
+
+      <!-- Textarea -->
+      <div class="form-group">
+        <label class="col-md-6 control-label" for="gonogoreason">Reason of Go/Nogo? (important if an interview has been made)</label>
+        <div class="col-md-6">                     
+          <textarea class="form-control" id="gonogoreason" name="gonogoreason">{{reasongonogo}}</textarea>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-6 control-label" for="validategonogo"></label>
+        <div class="col-md-6">
+        <button type="submit" class="btn btn-warning" id="validategonogo">Update</button>
+        </div>
+      </div>
+  </fieldset>
+  </form>
+
+</template>

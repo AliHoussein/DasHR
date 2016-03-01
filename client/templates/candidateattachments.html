@@ -1,0 +1,39 @@
+<template name="candidateattachments">
+<form class="gdrive_attachement form-horizontal">
+    <fieldset>
+
+      <!-- Form Name -->
+      <legend>Google Attachments Manager </legend>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <div class="col-md-8">
+          <input id="gdrive_url" name="gdrive_url" type="text" placeholder="Attachment URL in GDrive" class="form-control input-md" required="">
+          <span class="help-block">and press Enter</span>  
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each gdriveattachments}}
+    <tr>
+      <td><a href="{{gurl}}" target="_blank">{{name}}</a>
+      </td>
+      <td>
+        <button class="deletegattachment" id="d{{id.valueOf}}">&times;</button>
+      </td>
+      </tr>
+      {{/each}}               
+    </tbody>
+  </table> 
+
+</template>

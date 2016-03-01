@@ -16,12 +16,12 @@
 
      },
      "click .deletecom": function (event) {
-      comId = event.target.id.substring(1);
+      var id = event.target.id.substring(1);
       // console.log(Session.get('candidateId'));
       
       //define the subdocument
       var conditions = {'comments': {
-        id: new Meteor.Collection.ObjectID(comId)
+        id: new Meteor.Collection.ObjectID(id)
           }
         }
 

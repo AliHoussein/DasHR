@@ -13,7 +13,8 @@
 
               {{#if currentUser}}
               <form class="new-candidate">
-                <input type="text" name="name" placeholder="Type to add new candidates" />
+                  <input id="name" name="name" type="text" placeholder="Enter the new candidate name" class="form-control input-md" required="">
+                  <span class="help-block">and press Enter</span> 
               </form>
             {{/if}}
               

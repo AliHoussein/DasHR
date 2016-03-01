@@ -3,7 +3,7 @@
     <fieldset>
 
       <!-- Form Name -->
-      <legend>Google Attachments Manager </legend>
+      <legend>External Attachments Manager</legend>
 
       <!-- Text input-->
       <div class="form-group">
@@ -26,7 +26,7 @@
     <tbody>
       {{#each gdriveattachments}}
     <tr>
-      <td><a href="{{gurl}}" target="_blank">{{name}}</a>
+      <td><a href="{{gurl}}" target="_blank" class="urlext">{{name}}</a>
       </td>
       <td>
         <button class="deletegattachment" id="d{{id.valueOf}}">&times;</button>

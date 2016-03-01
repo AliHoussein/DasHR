@@ -1,9 +1,4 @@
 
-
-  // set hide complete to checked on startup
-  Session.setDefault("candidateId", "");
-
-
   Template.candidate.helpers({
     nbVotes: function (propname) {
       if (typeof this[propname] === 'undefined')

@@ -1,3 +1,4 @@
+
   Template.candidates.events({
     "submit .new-candidate": function (event) {
       // Prevent default browser form submit

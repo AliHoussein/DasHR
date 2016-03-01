@@ -1,3 +1,5 @@
+  
+
   Template.candidateattachments.events({
     "submit .gdrive_attachement": function (event) {
       // Prevent default browser form submit
@@ -25,6 +27,15 @@
         Candidates.update({_id: Session.get('candidateId')}, {
           $pull:conditions
         });    
-      }
+      },
+    "click .urlext": function (event) {
+      // Prevent default browser form opening link
+      event.preventDefault();
+
+      console.log(event.target.href);
+      var url =  event.target.href;
+
+      Session.set("gview", url)
+    }
   });
   

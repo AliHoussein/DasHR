@@ -1,3 +1,4 @@
+
   Template.candidatecomments.events({
     "submit .gonogoform": function(event) {
        // Prevent default browser form submit
